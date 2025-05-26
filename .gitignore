@@ -1,0 +1,41 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.xml
+.mvn/wrapper/
+.mvn/
+
+# Maven Wrapper executables
+mvnw
+mvnw.cmd
+
+# IDEs
+*.iml
+.idea/
+*.ipr
+*.iws
+.vscode/
+*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+logs/
+*.tmp
+*.bak
+*.out
+
+# Application
+.env
+*.pid
+*.gz
+
+# Others
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

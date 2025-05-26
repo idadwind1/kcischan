@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login - Kcischan</title>
+  <script src="/assets/js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="/assets/js/captcha.js"></script>
+</head>
+
+<body
+  class="bg-gradient-to-br from-pink-100 via-pink-200 to-pink-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex items-center justify-center font-sans text-pink-900 dark:text-pink-200">
+
+  <div
+    class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 max-w-sm w-full border-2 border-pink-300 dark:border-gray-700">
+    <h2 class="text-3xl font-extrabold text-pink-600 dark:text-pink-300 text-center mb-6">Admin Login 💼</h2>
+
+    <form class="space-y-5" id="login">
+      <div>
+        <label for="username" class="block text-sm font-medium text-pink-700 dark:text-pink-300">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username..." required
+          class="mt-1 w-full px-4 py-2 border border-pink-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-pink-900 dark:text-pink-100 rounded-xl focus:ring-pink-400 focus:border-pink-400 transition" />
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-pink-700 dark:text-pink-300">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password..."
+          class="mt-1 w-full px-4 py-2 border border-pink-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-pink-900 dark:text-pink-100 rounded-xl focus:ring-pink-400 focus:border-pink-400 transition" />
+      </div>
+
+      <div>
+        <label for="captcha-input" class="block text-sm font-medium text-pink-700 dark:text-pink-300">Captcha</label>
+        <img src="/captcha.jpg" class="mb-1" id="captcha" />
+        <input type="captcha" name="captcha" id="captcha-input" placeholder="Solve captcha"
+          class="mt-1 w-full px-4 py-2 border border-pink-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-pink-900 dark:text-pink-100 rounded-xl focus:ring-pink-400 focus:border-pink-400 transition" />
+      </div>
+
+      <button type="submit"
+        class="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-xl transition shadow-pink-900 hover:shadow-lg">
+        Login
+      </button>
+      <a href="/" class="mt-2 text-pink-400 hover:underline dark:text-pink-300">Not a place for you? go back to
+        homepage</a>
+    </form>
+
+    <p class="text-center hidden" id="login-status"></p>
+
+  </div>
+
+  <script>
+    document.getElementById('login').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const captcha = document.getElementById('captcha');
+
+      const res = await fetch('/api/login/admin', {
+        method: 'POST',
+        body: new FormData(e.target),
+      });
+
+      const status = document.getElementById('login-status');
+      const json = await res.json();
+      if (res.ok) {
+        status.style.display = 'block';
+        status.textContent = 'Logged in!';
+        status.style.color = 'green';
+        setTimeout(() => location.reload(), 500);
+        form.reset();
+      } else {
+        status.style.display = 'block';
+        status.textContent = json.message;
+        status.style.color = 'red';
+        captcha.src = '/captcha.jpg?rand' + Date.now();
+      }
+    });
+  </script>
+</body>
+
+</html>

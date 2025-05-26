@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Kcischan</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+
+<body class="bg-pink-50 dark:bg-gray-900 text-pink-900 dark:text-pink-200 min-h-screen p-6">
+  <div
+    class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg space-y-8 relative border border-pink-100 dark:border-gray-700">
+
+    <div class="absolute top-4 right-4">
+      <span class="mr-1" th:text="${username}"></span>
+      <a href="/api/admin/logout"
+        class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-black dark:text-white text-sm font-medium py-1 px-3 rounded shadow">
+        Logout
+      </a>
+    </div>
+
+    <h1 class="text-3xl font-bold text-pink-600 dark:text-pink-400 text-center mb-4">Admin Panel</h1>
+
+    <form id="delete-form" action="/api/admin/delete" method="POST" enctype="multipart/form-data" class="space-y-2">
+      <h2 class="text-xl font-semibold text-red-600 dark:text-red-400">Delete Post (Will still be stored in database)
+      </h2>
+      <input type="text" name="post" placeholder="Post ID" required
+        class="transition focus:ring-red-600 focus:border-red-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
+      <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+        Delete
+      </button>
+      <div id="delete-status" class="text-sm mt-1 hidden"></div>
+    </form>
+
+    <form id="recover-form" action="/api/admin/recover" method="POST" enctype="multipart/form-data" class="space-y-2">
+      <h2 class="text-xl font-semibold text-green-600 dark:text-green-400">Recover Deleted Post</h2>
+      <input type="text" name="post" placeholder="Post ID" required
+        class="transition focus:ring-green-600 focus:border-green-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
+      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
+        Recover
+      </button>
+      <div id="recover-status" class="text-sm mt-1 hidden"></div>
+    </form>
+
+    <form id="edit-blog-form" action="/api/admin/edit_blog" method="POST" enctype="multipart/form-data"
+      class="space-y-2">
+      <h2 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Edit About Page (Markdown supported)</h2>
+      <p class="text-blue-600 dark:text-blue-400">
+        IDs:
+        <br />
+        /about: 1
+        <br />
+        /about/help: 2
+        <br />
+        /about/rules: 3
+      </p>
+      <input type="text" name="blog" placeholder="ID" required
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
+      <textarea name="content" rows="6" placeholder="New content..." required
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white"></textarea>
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        Save Changes
+      </button>
+      <div id="edit-blog-status" class="text-sm mt-1 hidden"></div>
+    </form>
+
+    <form id="board-form" action="/api/admin/change_board_info" method="POST" class="space-y-2">
+      <h2 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Edit Boards Info</h2>
+      <p class="text-blue-600 dark:text-blue-400">
+        Leave blank for field you would not want to change
+        <br />
+        Beware that you won't want to normally change a name of a board. Use with caution
+      </p>
+      <input type="text" name="boardId" placeholder="Board Id" required
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
+      <input type="text" name="name" placeholder="New Name"
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
+      <input type="text" name="description" placeholder="New Description"
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
+      <input type="text" name="pinnedPostId" placeholder="New Pinned Post Id"
+        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
+      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        Save Changes
+      </button>
+      <button type="button" id="btn-unset-pinned-post"
+        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        Unset Pinned Post
+      </button>
+      <div id="board-status" class="text-sm mt-1 hidden"></div>
+    </form>
+
+    <form id="password-form" action="/api/admin/change_password" method="POST" class="space-y-2">
+      <h2 class="text-lg font-semibold text-purple-500">Change Password</h2>
+      <input type="password" name="oldPassword" placeholder="Old Password"
+        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
+      <input type="password" name="newPassword" id="password" placeholder="New Password" required
+        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
+      <input type="password" id="password-repeat" placeholder="Repeat Password" required
+        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
+      <button type="submit" class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded">
+        Change Password
+      </button>
+      <div id="password-status" class="text-sm mt-1 hidden"></div>
+    </form>
+
+    <a href="/" class="mt-2 text-pink-400 hover:underline dark:text-pink-300">Go to homepage (session will be saved and
+      can be used to send admin posts)</a>
+  </div>
+
+  <script>
+    document.getElementById("delete-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      await postApi('/api/admin/delete', new FormData(e.target), document.getElementById('delete-status'), "Post deleted successfully!");
+    });
+
+    document.getElementById("recover-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      await postApi('/api/admin/recover', new FormData(e.target), document.getElementById('recover-status'), "Post recovered successfully!");
+    });
+
+    document.getElementById("edit-blog-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      await postApi('/api/admin/edit_blog', new FormData(e.target), document.getElementById('edit-blog-status'), "Blog updated successfully!");
+    });
+
+    document.getElementById('password-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const status = document.getElementById('password-status');
+      if (document.getElementById('password').value !== document.getElementById('password-repeat').value) {
+        appendStatusText(status, false, "Passwords do not match!");
+        return;
+      }
+      await postApi('/api/admin/change_password', new FormData(e.target), status, "Password changed successfully!");
+    });
+
+    document.getElementById('board-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      await postApi('/api/admin/change_board_info', new FormData(e.target), document.getElementById('board-status'), "Board updated successfully!");
+    });
+
+    document.getElementById('btn-unset-pinned-post').addEventListener('click', async function () {
+      const boardId = document.querySelector('input[name="boardId"]').value;
+      const formData = new FormData();
+      formData.append('boardId', boardId);
+      await postApi('/api/admin/unset_pinned_post', formData, document.getElementById('board-status'), "Pinned post unset");
+    });
+
+    async function postApi(url, formData, status, successMessage) {
+      const res = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+      const json = await res.json();
+      if (res.ok) {
+        appendStatusText(status, true, successMessage);
+      } else {
+        appendStatusText(status, false, json.message);
+      }
+    }
+
+    function appendStatusText(statusSpan, success, message) {
+      statusSpan.style.display = "block";
+      if (success) {
+        statusSpan.textContent = message;
+        statusSpan.style.color = "green";
+      } else {
+        statusSpan.textContent = message;
+        statusSpan.style.color = "red";
+      }
+    }
+  </script>
+</body>
+
+</html>

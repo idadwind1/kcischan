@@ -62,7 +62,7 @@ public class PostApi {
     newPost.setId(NanoIdUtils.randomNanoId(NanoIdUtils.DEFAULT_NUMBER_GENERATOR, NanoIdUtils.DEFAULT_ALPHABET, 10));
 
     if (sessionService.isUserLoggedIn(session)) {
-      newPost.setStatus("admin");
+      newPost.setFromAdmin(true);
     }
 
     if (file != null && !file.isEmpty()) {
@@ -102,8 +102,7 @@ public class PostApi {
         || !post.get().getAttachmentExtension().equals(fileExtension)) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-    if (!post.get().getStatus().equals("visible") && post.get().getStatus().equals("admin")
-        && sessionService.isUserLoggedIn(session)) {
+    if (post.get().getDeleted() && sessionService.isUserLoggedIn(session)) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 

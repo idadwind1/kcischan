@@ -68,8 +68,8 @@
             class="block text-xl font-bold text-pink-500 dark:text-pink-300 hover:underline">
             Title
           </p>
-          <p th:if="${pinnedPost.status} == 'hidden'" class="mt-1 text-sm" style="color: red;">Hidden</p>
-          <p th:if="${pinnedPost.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
+          <p th:if="${pinnedPost.deleted}" class="mt-1 text-sm" style="color: red;">Deleted</p>
+          <p th:if="${pinnedPost.fromAdmin}" class="mt-1 text-sm" style="color: red;">From Admin</p>
           <p class="text-pink-400 dark:text-pink-200 mt-1 text-sm"
             th:text="'Pinned; ' + ${pinnedPost.id} + '; Started on ' + ${pinnedPost.createdAt}">
             Thread Info
@@ -82,9 +82,8 @@
         <a th:href="@{'/post/' + ${thread.id}}">
           <p th:text="${thread.title}" class="block text-xl font-bold text-pink-500 dark:text-pink-300 hover:underline">
             Thread Title</p>
-          <p th:if="${thread.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
-          <p th:if="${thread.status} == 'deleted_by_admin' or ${thread.status} == 'deleted'" class="mt-1 text-sm"
-            style="color: red;">Deleted</p>
+          <p th:if="${thread.fromAdmin}" class="mt-1 text-sm" style="color: red;">From Admin</p>
+          <p th:if="${thread.deleted}" class="mt-1 text-sm" style="color: red;">Deleted</p>
           <p class="text-pink-400 dark:text-pink-200 mt-1 text-sm"
             th:text="${thread.id} + '; Started on ' + ${thread.createdAt}">
             Thread Info

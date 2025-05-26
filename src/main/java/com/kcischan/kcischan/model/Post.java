@@ -11,14 +11,16 @@ public class Post {
   private String parentId; // null if it's a thread
   private int board;
   private String content;
-  private String status;
+  private boolean deleted;
+  private boolean fromAdmin;
   private String title;
   private LocalDateTime createdAt;
   private String attachmentExtension;
 
   public Post() {
+    this.deleted = false;
+    this.fromAdmin = false;
     this.createdAt = LocalDateTime.now();
-    this.status = "visible";
   }
 
   public String getId() {
@@ -53,12 +55,20 @@ public class Post {
     this.content = content;
   }
 
-  public String getStatus() {
-    return status;
+  public boolean getDeleted() {
+    return deleted;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
+  }
+
+  public boolean getFromAdmin() {
+    return fromAdmin;
+  }
+
+  public void setFromAdmin(boolean fromAdmin) {
+    this.fromAdmin = fromAdmin;
   }
 
   public LocalDateTime getCreatedAt() {

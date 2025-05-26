@@ -15,7 +15,6 @@ import com.kcischan.kcischan.service.SessionService;
 import jakarta.servlet.http.HttpSession;
 
 import com.kcischan.kcischan.repository.BoardRepository;
-import com.kcischan.kcischan.api.AdminApi;
 
 import java.util.*;
 
@@ -49,7 +48,7 @@ public class BoardController {
       model.addAttribute("isAdmin", false);
     if (board.get().getPinnedPostId() != null) {
       Optional<Post> pinnedPost = postRepo.findById(board.get().getPinnedPostId());
-      if (!pinnedPost.isEmpty())
+      if (!pinnedPost.isEmpty() && !pinnedPost.get().getDeleted())
         model.addAttribute("pinnedPost", pinnedPost.get());
     }
     return "board";

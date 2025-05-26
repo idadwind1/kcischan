@@ -21,9 +21,8 @@
       class="text-pink-400 hover:underline dark:text-pink-300">&larr; Back to Board</a>
     <div class="mb-4 p-4 bg-white dark:bg-gray-800 rounded-xl">
       <h1 class="text-4xl font-bold text-pink-500 dark:text-pink-300" th:text="${post.title}">Thread Title</h1>
-      <p th:if="${post.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
-      <p th:if="${post.status} == 'deleted_by_admin' or ${post.status} == 'deleted'" class="mt-1 text-sm"
-        style="color: red;">Deleted</p>
+      <p th:if="${post.fromAdmin}" class="mt-1 text-sm" style="color: red;">From Admin</p>
+      <p th:if="${post.deleted}" class="mt-1 text-sm" style="color: red;">Deleted</p>
       <p class="text-sm text-pink-300 dark:text-pink-200" th:text="${post.id}">id</p>
       <p class="text-sm text-pink-300 dark:text-pink-200" th:text="${post.createdAt}">Date</p>
     </div>
@@ -105,9 +104,8 @@
           </div>
           <div class="markdown-content" th:text="${reply.content}">
             Post Content</div>
-          <p th:if="${reply.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
-          <p th:if="${reply.status} == 'deleted_by_admin' or ${reply.status} == 'deleted'" class="mt-1 text-sm"
-            style="color: red;">Deleted</p>
+          <p th:if="${reply.fromAdmin}" class="mt-1 text-sm" style="color: red;">From Admin</p>
+          <p th:if="${reply.deleted}" class="mt-1 text-sm" style="color: red;">Deleted</p>
           <p class="text-sm text-pink-300 dark:text-pink-200 mt-1"
             th:text="${reply.id} + '; Started on ' + ${reply.createdAt}">
             post Info</p>

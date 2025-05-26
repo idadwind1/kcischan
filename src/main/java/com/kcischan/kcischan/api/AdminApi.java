@@ -89,7 +89,7 @@ public class AdminApi {
     }
 
     Post newPost = post.get();
-    newPost.setStatus("deleted_by_admin");
+    newPost.setDeleted(true);
     postRepo.save(newPost);
     return ResponseEntity.ok(Map.of(
         "success", true,
@@ -106,7 +106,7 @@ public class AdminApi {
     }
 
     Post newPost = post.get();
-    newPost.setStatus("visible");
+    newPost.setDeleted(false);
     postRepo.save(newPost);
     return ResponseEntity.ok(Map.of(
         "success", true,

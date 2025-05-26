@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <title th:text="${post.title} + ' - Kcischan'">Thread</title>
+  <script src="/assets/js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="/assets/css/markdown.css" />
+  <script src="/assets/js/markdown.js"></script>
+  <script src="/assets/js/captcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body class="bg-pink-50 dark:bg-gray-900 min-h-screen p-6 text-pink-900 dark:text-white">
+  <header class="mb-6">
+    <a th:if="${post.parentId}" th:href="@{'/post/' + ${post.parentId}}"
+      class="text-pink-400 hover:underline dark:text-pink-300">&larr; Back to Parent Post</a>
+    <a th:unless="${post.parentId}" th:href="@{'/board/' + ${post.board}}"
+      class="text-pink-400 hover:underline dark:text-pink-300">&larr; Back to Board</a>
+    <div class="mb-4 p-4 bg-white dark:bg-gray-800 rounded-xl">
+      <h1 class="text-4xl font-bold text-pink-500 dark:text-pink-300" th:text="${post.title}">Thread Title</h1>
+      <p th:if="${post.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
+      <p th:if="${post.status} == 'deleted_by_admin' or ${post.status} == 'deleted'" class="mt-1 text-sm"
+        style="color: red;">Deleted</p>
+      <p class="text-sm text-pink-300 dark:text-pink-200" th:text="${post.id}">id</p>
+      <p class="text-sm text-pink-300 dark:text-pink-200" th:text="${post.createdAt}">Date</p>
+    </div>
+  </header>
+
+  <main class="max-w-4xl space-y-6 inline">
+    <ul>
+      <li class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-4">
+        <div th:if="${post.attachmentExtension != null}">
+          <img th:if="${#lists.contains({'jpg','jpeg','png','webp','gif','bmp','svg'}, post.attachmentExtension)}"
+            th:src="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" alt="attachment"
+            class="max-w-[20vw] h-auto rounded" />
+          <a th:href="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" target="_blank"
+            class="text-pink-400 hover:underline dark:text-pink-300">
+            Download attachment
+          </a>
+        </div>
+        <div class="markdown-content" th:text="${post.content}">
+          Post Content</div>
+      </li>
+
+      <form class="post-form bg-white dark:bg-gray-800 p-4 rounded-xl mb-4">
+        <input type="hidden" name="board" th:value="${post.board}" />
+        <input type="hidden" name="parent_id" th:value="${post.id}" />
+        <input type="text" name="title" placeholder="Title"
+          class="w-full p-2 border rounded mb-2 border-pink-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-pink-900 dark:text-white" />
+        <textarea id="content" name="content" placeholder="Content..."
+          class="w-full p-2 border rounded mb-2 border-pink-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-pink-900 dark:text-white"></textarea>
+        <span class="block flex justify-end mb-3 text-pink-500 dark:text-pink-300">
+          <a href="https://en.wikipedia.org/wiki/Markdown">
+            <svg aria-hidden="true" focusable="false" class="octicon octicon-markdown" viewBox="0 0 16 16" width="16"
+              height="16" fill="currentColor" display="inline-block" overflow="visible"
+              style="vertical-align: text-bottom;">
+              <path
+                d="M14.85 3c.63 0 1.15.52 1.14 1.15v7.7c0 .63-.51 1.15-1.15 1.15H1.15C.52 13 0 12.48 0 11.84V4.15C0 3.52.52 3 1.15 3ZM9 11V5H7L5.5 7 4 5H2v6h2V8l1.5 1.92L7 8v3Zm2.99.5L14.5 8H13V5h-2v3H9.5Z">
+              </path>
+            </svg>
+          </a>
+        </span>
+        <label for="file" class="block text-sm text-pink-400 dark:text-pink-300 mb-2">Attachment: </label>
+        <input type="file" name="attachment" id="file" class="inline" />
+        <br />
+        <img src="/captcha.jpg" class="mb-3" id="captcha" />
+        <input type="captcha" name="captcha" id="captcha_input" placeholder="Solve captcha"
+          class="p-2 mr-1 border border-pink-200 dark:border-gray-600 bg-white dark:bg-gray-900 rounded mb-3 focus:outline-none focus:ring-2 focus:ring-pink-300" />
+        <button type="submit" th:unless="${isAdmin}"
+          class="shadow-pink-900 hover:shadow-ig bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition dark:bg-pink-400 dark:hover:bg-pink-500">
+          Post
+        </button>
+
+        <div th:if="${isAdmin}">
+          <button type="submit"
+            class="shadow-pink-900 hover:shadow-ig bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition dark:bg-pink-400 dark:hover:bg-pink-500">
+            Post As Admin
+          </button>
+          <a class="cursor-pointer ml-1 text-pink-400 hover:underline dark:text-pink-300" id="logout-admin">Logout</a>
+        </div>
+        <p id="post-status" class="text-sm text-pink-500 dark:text-pink-300 mt-2"></p>
+      </form>
+
+      <h3 class="text-3xl mb-2 font-bold text-pink-500 dark:text-pink-300">Replies</h3>
+      <p th:if="${#lists.isEmpty(replies)}" class="text-pink-300 dark:text-pink-200 text-4xl text-center my-10">Nothing
+        is here... yet
+      </p>
+
+      <li th:each="reply : ${replies}"
+        class="bg-white dark:bg-gray-800 rounded-xl p-4 hover:bg-pink-100 dark:hover:bg-gray-700 transition cursor-pointer mb-4 border border-pink-100 dark:border-gray-700">
+        <a th:href="@{'/post/' + ${reply.id}}">
+          <p th:text="${reply.title}"
+            class="block text-xl font-semibold text-pink-600 dark:text-pink-300 hover:underline">post Title</p>
+          <div th:if="${reply.attachmentExtension != null}">
+            <img th:if="${#lists.contains({'jpg','jpeg','png','webp','gif','bmp','svg'}, reply.attachmentExtension)}"
+              th:src="@{'/uploads/' + ${reply.id} + '.' + ${reply.attachmentExtension}}" alt="attachment"
+              class="max-w-[10vw] h-auto rounded" />
+            <a th:href="@{'/uploads/' + ${reply.id} + '.' + ${reply.attachmentExtension}}" target="_blank"
+              class="text-pink-400 hover:underline dark:text-pink-300">
+              Download attachment
+            </a>
+          </div>
+          <div class="markdown-content" th:text="${reply.content}">
+            Post Content</div>
+          <p th:if="${reply.status} == 'admin'" class="mt-1 text-sm" style="color: red;">From Admin</p>
+          <p th:if="${reply.status} == 'deleted_by_admin' or ${reply.status} == 'deleted'" class="mt-1 text-sm"
+            style="color: red;">Deleted</p>
+          <p class="text-sm text-pink-300 dark:text-pink-200 mt-1"
+            th:text="${reply.id} + '; Started on ' + ${reply.createdAt}">
+            post Info</p>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <script src="/assets/js/postForm.js"></script>
+</body>
+
+</html>

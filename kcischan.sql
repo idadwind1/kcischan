@@ -34,9 +34,10 @@ CREATE TABLE `boards` (
 LOCK TABLES `boards` WRITE;
 INSERT INTO `boards` VALUES
 (-2,'Uncensored','CONGRADUATION!!! YOU\'VE REACHED THE OUTLAWLAND!!!!!!!!',NULL,1),
-(-1,'Hacking','Congraduation!!! You\'ve reached the ultimate board!',NULL,1),
+(-1,'Hacking','Congraduation!!! You\'ve reached the ultimate board!',NULL),
+(0,'Test','Testiuguo gfilyvsf vbiyfl gdv yi',NULL,1),
 (1,'Random','Ripped off /b/. Almost everything is permitted',NULL,1),
-(2,'Homeworrk','Seek help for homework & ask for notes',NULL,0),
+(2,'Homework','Seek help for homework & ask for notes',NULL,0),
 (3,'Games','Share things about games!',NULL,0),
 (4,'Deals','Trade things!',NULL,0),
 (5,'Romatic','Place to discuss & confess love',NULL,0),

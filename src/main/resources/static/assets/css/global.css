@@ -1,0 +1,12 @@
+body {
+  padding: 1.5rem;
+  background-color: #FDF2F8;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.dark body {
+  color: #ffffff;
+  background-color: #111827;
+}

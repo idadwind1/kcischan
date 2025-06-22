@@ -78,6 +78,19 @@ public class PostApi {
           .toAbsolutePath().toFile());
     }
 
+    if (parentId.isBlank())
+      parentId = null;
+
+    if (parentId != null) {
+      Post parentPost = postRepo.findById(parentId).orElse(null);
+      if (parentId != null && parentPost == null) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post not found");
+      }
+      if (parentPost.getBoard() != board) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post does not belong to the same board");
+      }
+    }
+
     newPost.setBoard(board);
     newPost.setContent(content);
     // newPost.setCreatedAt(LocalDateTime.now());

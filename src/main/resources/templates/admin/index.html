@@ -4,49 +4,47 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel - Kcischan</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    #username {
+      position: absolute;
+      top: 2rem;
+      right: 3rem;
+    }
+  </style>
 </head>
 
+<body>
+  <main class="box">
+    <h1>Admin Panel</h1>
 
-<body class="bg-pink-50 dark:bg-gray-900 text-pink-900 dark:text-pink-200 min-h-screen p-6">
-  <div
-    class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg space-y-8 relative border border-pink-100 dark:border-gray-700">
-
-    <div class="absolute top-4 right-4">
-      <span class="mr-1" th:text="${username}"></span>
-      <a href="/api/admin/logout"
-        class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-black dark:text-white text-sm font-medium py-1 px-3 rounded shadow">
+    <div id="username">
+      <span th:text="${username}"></span>
+      <a href="/api/admin/logout">
         Logout
       </a>
     </div>
 
-    <h1 class="text-3xl font-bold text-pink-600 dark:text-pink-400 text-center mb-4">Admin Panel</h1>
-
-    <form id="delete-form" action="/api/admin/delete" method="POST" enctype="multipart/form-data" class="space-y-2">
-      <h2 class="text-xl font-semibold text-red-600 dark:text-red-400">Delete Post (Will still be stored in database)
-      </h2>
-      <input type="text" name="post" placeholder="Post ID" required
-        class="transition focus:ring-red-600 focus:border-red-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
-      <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
-        Delete
-      </button>
-      <div id="delete-status" class="text-sm mt-1 hidden"></div>
+    <form id="delete-form" action="/api/admin/delete" method="POST" enctype="multipart/form-data" class="spacey-1">
+      <p class="bold">Delete Post (Will still be stored in database)
+      </p>
+      <input type="text" name="post" placeholder="Post ID" required>
+      <button type="submit">Delete</button>
+      <div id="delete-status" class="status-label hidden"></div>
     </form>
 
-    <form id="recover-form" action="/api/admin/recover" method="POST" enctype="multipart/form-data" class="space-y-2">
-      <h2 class="text-xl font-semibold text-green-600 dark:text-green-400">Recover Deleted Post</h2>
-      <input type="text" name="post" placeholder="Post ID" required
-        class="transition focus:ring-green-600 focus:border-green-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
-      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">
-        Recover
-      </button>
-      <div id="recover-status" class="text-sm mt-1 hidden"></div>
+    <form id="recover-form" action="/api/admin/recover" method="POST" enctype="multipart/form-data" class="spacey-1">
+      <p class="bold">Recover Deleted Post</p>
+      <input type="text" name="post" placeholder="Post ID" required>
+      <button type="submit">Recover</button>
+      <div id="recover-status" class="status-label hidden"></div>
     </form>
 
     <form id="edit-blog-form" action="/api/admin/edit_blog" method="POST" enctype="multipart/form-data"
-      class="space-y-2">
-      <h2 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Edit About Page (Markdown supported)</h2>
-      <p class="text-blue-600 dark:text-blue-400">
+      class="spacey-1">
+      <p class="bold">Edit About Page (Markdown supported)</p>
+      <p>
         IDs:
         <br />
         /about: 1
@@ -55,58 +53,39 @@
         <br />
         /about/rules: 3
       </p>
-      <input type="text" name="blog" placeholder="ID" required
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white">
-      <textarea name="content" rows="6" placeholder="New content..." required
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white"></textarea>
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-        Save Changes
-      </button>
-      <div id="edit-blog-status" class="text-sm mt-1 hidden"></div>
+      <input type="text" name="blog" placeholder="ID" required>
+      <textarea name="content" rows="6" placeholder="New content..." required></textarea>
+      <button type="submit">Save Changes</button>
+      <div id="edit-blog-status" class="status-label hidden"></div>
     </form>
 
-    <form id="board-form" action="/api/admin/change_board_info" method="POST" class="space-y-2">
-      <h2 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Edit Boards Info</h2>
-      <p class="text-blue-600 dark:text-blue-400">
+    <form id="board-form" action="/api/admin/change_board_info" method="POST" class="spacey-1">
+      <p class="bold">Edit Boards Info</p>
+      <p>
         Leave blank for field you would not want to change
         <br />
-        Beware that you won't want to normally change a name of a board. Use with caution
+        Beware that you won't want to normally change a name or description of a board. Use with caution
       </p>
-      <input type="text" name="boardId" placeholder="Board Id" required
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
-      <input type="text" name="name" placeholder="New Name"
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
-      <input type="text" name="description" placeholder="New Description"
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
-      <input type="text" name="pinnedPostId" placeholder="New Pinned Post Id"
-        class="transition focus:ring-blue-600 focus:border-blue-400 w-full p-2 border rounded bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-black dark:text-white" />
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-        Save Changes
-      </button>
-      <button type="button" id="btn-unset-pinned-post"
-        class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-        Unset Pinned Post
-      </button>
-      <div id="board-status" class="text-sm mt-1 hidden"></div>
+      <input type="text" name="boardId" placeholder="Board Id" required />
+      <input type="text" name="name" placeholder="New Name" />
+      <input type="text" name="description" placeholder="New Description" />
+      <input type="text" name="pinnedPostId" placeholder="New Pinned Post Id" />
+      <button type="submit">Save Changes</button>
+      <button type="button" id="btn-unset-pinned-post">Unset Pinned Post</button>
+      <div id="board-status" class="status-label hidden"></div>
     </form>
 
-    <form id="password-form" action="/api/admin/change_password" method="POST" class="space-y-2">
-      <h2 class="text-lg font-semibold text-purple-500">Change Password</h2>
-      <input type="password" name="oldPassword" placeholder="Old Password"
-        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
-      <input type="password" name="newPassword" id="password" placeholder="New Password" required
-        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
-      <input type="password" id="password-repeat" placeholder="Repeat Password" required
-        class="transition focus:ring-purple-500 focus:border-purple-500 w-full p-2 border border-gray-300 rounded bg-white dark:bg-gray-900 dark:border-gray-600 text-black dark:text-white" />
-      <button type="submit" class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded">
-        Change Password
-      </button>
-      <div id="password-status" class="text-sm mt-1 hidden"></div>
+    <form id="password-form" action="/api/admin/change_password" method="POST" class="spacey-1">
+      <p class="bold">Change Password</p>
+      <input type="password" name="oldPassword" placeholder="Old Password" />
+      <input type="password" name="newPassword" id="password" placeholder="New Password" required />
+      <input type="password" id="password-repeat" placeholder="Repeat Password" required />
+      <button type="submit">Change Password</button>
+      <div id="password-status" class="status-label hidden"></div>
     </form>
 
-    <a href="/" class="mt-2 text-pink-400 hover:underline dark:text-pink-300">Go to homepage (session will be saved and
-      can be used to send admin posts)</a>
-  </div>
+    <a href="/">Go to homepage (session will be saved and can be used to send admin posts)</a>
+  </main>
 
   <script>
     document.getElementById("delete-form").addEventListener("submit", async function (e) {

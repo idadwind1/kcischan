@@ -1,0 +1,77 @@
+<div th:fragment="description(post, isPinned)">
+  <p th:if="${post.fromAdmin}" style="color: red;">From Admin</p>
+  <p th:if="${post.deleted}" style="color: red;">Deleted</p>
+  <p>
+    <span th:if="${isPinned}">Pinned; </span>
+    <span th:text="${post.id} + '; Started on ' + ${post.createdAt}"></span>
+  </p>
+</div>
+
+<div th:fragment="content(post)">
+  <div th:if="${post.attachmentExtension != null}">
+    <img th:if="${#lists.contains({'jpg','jpeg','png','webp','gif','bmp','svg'}, post.attachmentExtension)}"
+      th:src="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" alt="attachment" />
+    <br />
+    <a th:href="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" target="_blank">
+      Download attachment
+    </a>
+  </div>
+
+  <div class="markdown-content" th:text="${post.content}">Post Content</div>
+</div>
+
+<div th:fragment="postCard(post, isPinned, showContent)" class="card box">
+  <a th:href="@{'/post/' + ${post.id}}" class="no-underline">
+    <div class="bold">
+      <div th:if="${isPinned}">📌</div>
+      <div th:text="${post.title}">Post Title</div>
+    </div>
+
+    <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned})}">
+    </div>
+  </a>
+
+  <th:block th:if="${showContent}" th:insert="~{this :: content(${post})}" />
+</div>
+
+<form th:fragment="postForm(board, parent, isAdmin)" class="box post-form spacey-1">
+  <input type="text" name="title" placeholder="Title" class="full-width" />
+
+  <input type="hidden" name="board" th:value="${board}" />
+  <input type="hidden" name="parent_id" th:value="${parent}" />
+
+  <div>
+    <textarea id="content" class="full-width" name="content"
+      placeholder="Content... (At least 10 characters)"></textarea>
+    <p class="flex-rightmost">
+      <a href="https://en.wikipedia.org/wiki/Markdown" title="Markdown supported">
+        <svg aria-hidden="true" focusable="false" class="octicon octicon-markdown" viewBox="0 0 16 16" width="16"
+          height="16" fill="currentColor" display="inline-block" overflow="visible"
+          style="vertical-align: text-bottom;">
+          <path
+            d="M14.85 3c.63 0 1.15.52 1.14 1.15v7.7c0 .63-.51 1.15-1.15 1.15H1.15C.52 13 0 12.48 0 11.84V4.15C0 3.52.52 3 1.15 3ZM9 11V5H7L5.5 7 4 5H2v6h2V8l1.5 1.92L7 8v3Zm2.99.5L14.5 8H13V5h-2v3H9.5Z">
+          </path>
+        </svg>
+      </a>
+    </p>
+  </div>
+
+  <div class="no-margin">
+    <label for="file" class="color-accent">Attachment (Optional): </label>
+    <input type="file" name="attachment" id="file" />
+  </div>
+
+  <img src="/captcha.jpg" id="captcha" />
+
+  <div>
+    <input type="text" name="captcha" id="captcha_input" placeholder="Solve captcha" />
+    <button type="submit" th:unless="${isAdmin}">Post</button>
+  </div>
+
+  <div th:if="${isAdmin}">
+    <button type="submit">Post As Admin</button>
+    <a id="logout-admin" href="javascript:void(0)">Logout</a>
+  </div>
+
+  <span id="post-status" class="status-label"></span>
+</form>

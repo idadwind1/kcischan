@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title th:text="${title} + ' - Kcischan'"></title>
   <link rel="stylesheet" href="/assets/css/markdown.css" />
+  <link rel="stylesheet" href="/assets/css/style.css">
   <script src="/assets/js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -13,19 +14,18 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
-<body class="bg-pink-50 dark:bg-gray-900 p-6">
-  <header class="mb-6">
-    <a href="/" class="text-pink-500 dark:text-pink-300 hover:underline">&larr; Back to Homepage</a>
-    <h1 th:text="${title}" class="text-4xl font-bold text-pink-500 dark:text-pink-300 text-center">Title</h1>
+<body>
+  <header>
+    <a href="/">&larr; Back to Homepage</a>
+    <h1 th:text="${title}">Title</h1>
   </header>
-  <div class="max-w-3xl mx-auto px-6 py-12">
-    <p th:text="'Last Updated: ' + ${last_update}" class="block text-pink-500 dark:text-pink-300 mb-2"></p>
 
-    <div th:utext="${content}"
-      class="markdown-content text-black dark:text-white bg-white dark:bg-gray-800 rounded-2xl p-6 mb-8 border border-pink-100 dark:border-gray-700">
+  <main class="content-middle-container">
+    <p th:text="'Last Updated: ' + ${last_update}" class="color-accent"></p>
+    <div th:utext="${content}" class="markdown-content box no-margin">
       Content
     </div>
-  </div>
+  </main>
 </body>
 
 </html>

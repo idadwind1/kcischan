@@ -5,28 +5,27 @@
   <meta charset="UTF-8" />
   <title>An error occurred - Kcischan</title>
   <script src="/assets/js/config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
-<body
-  class="bg-pink-50 dark:bg-gray-900 flex items-center justify-center min-h-screen text-pink-900 dark:text-pink-300">
-  <div
-    class="bg-white dark:bg-gray-800 p-10 rounded-3xl text-center max-w-md border border-pink-100 dark:border-gray-700">
-    <h1 class="text-6xl font-bold text-pink-500 dark:text-pink-400 mb-4">Oops!</h1>
-    <h2 class="text-3xl font-semibold text-pink-600 dark:text-pink-300 mb-2" th:text="${error}">Unknown error</h2>
-    <h5 class="text-pink-400 dark:text-pink-300" th:text="${message}">Something went wrong~</h5>
-    <p class="text-pink-300 dark:text-pink-200 mb-6 italic" th:text="${timestamp}">Timestamp</p>
+<body class="no-padding">
+  <main class="content-center-screen-container">
+    <div class="box text-center spacey-2">
+      <h1>Oops!</h1>
+      <h2 th:text="${error}">Unknown error</h2>
+      <p class="no-margin bold italic" th:text="${message}">Something went wrong</p>
+      <p th:text="${timestamp}">Timestamp</p>
+      <div class="flex-vertical gap-2" style="align-items: center;">
+        <button onclick="window.location.href='/'">
+          Go Home 🏠
+        </button>
+        <button onclick="window.location.reload()">
+          Refresh Page 🔁
+        </button>
+      </div>
+    </div>
 
-    <a href="/"
-      class="inline-block px-5 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 transition dark:bg-pink-400 dark:hover:bg-pink-500">
-      Go Home 🏠
-    </a>
-    <br />
-    <a href="javascript:window.location.reload()"
-      class="mt-4 inline-block px-5 py-2 bg-pink-500 text-white rounded hover:bg-pink-600 transition dark:bg-pink-400 dark:hover:bg-pink-500">
-      Refresh Page 🔁
-    </a>
-  </div>
+  </main>
 </body>
 
 </html>

@@ -4,38 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Kcischan Boards</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
   <script src="/assets/js/config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 
-<body class="bg-pink-50 dark:bg-gray-900 dark:text-white p-6 transition-colors duration-300">
-  <h1 class="text-4xl font-bold mb-4 text-pink-500 dark:text-pink-300 text-center" data-theme-color>
-    Welcome to Kcischan
-  </h1>
+<body>
+  <a class="hidden-link" href="admin/">Admin login</a>
 
-  <a class="text-pink-50 dark:text-gray-900 no-underline cursor-default absolute top-0 left-0" href="admin/">Admin
-    login</a>
-
-  <div class="mb-4 font-bold">
-    <p class="dark:text-gray-300 text-center">Absolute anomonous 4chan-like channel.</p>
-    <p class="dark:text-gray-300 text-center">
-      Choose one of the following boards to get started, or read our
-      <a href="/about"
-        class="underline text-pink-500 hover:text-pink-600 dark:text-pink-300 dark:hover:text-pink-400 transition">about
-        page</a> first
+  <header class=" bold">
+    <h1>
+      Welcome to Kcischan
+    </h1>
+    <p class="subtitle">
+      Absolute anomonous 4chan-like channel.
+      <br />
+      Choose one of the following boards to get started, or read our <a href="/about">about page</a>
+      first!
     </p>
-  </div>
+  </header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <div th:each="board : ${boards}"
-      class="bg-white dark:bg-gray-800 rounded-2xl shadow-pink-200 p-4 hover:shadow transition border border-pink-100 dark:border-gray-700">
-      <a th:href="@{'/board/' + ${board.id}}"
-        class="text-xl font-semibold text-pink-500 dark:text-pink-300 hover:underline" data-theme-color>
-        <span th:text="${board.name}">Board Name</span>
-        <p class="text-pink-400 dark:text-pink-200 text-lg" th:text="${board.description}">Board description...</p>
-      </a>
-    </div>
+  <div class="index-container bold">
+    <a th:each="board : ${boards}" th:href="@{'/board/' + ${board.id}}" class="no-underline card box">
+      <p th:text="${board.name}">Board Name</p>
+      <p th:text="${board.description}">Board description...</p>
+    </a>
   </div>
 </body>
 

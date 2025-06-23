@@ -2,6 +2,7 @@ document.querySelectorAll('.post-form').forEach(el => el.addEventListener('submi
   e.preventDefault();
 
   const captcha = document.getElementById('captcha');
+  const status = document.getElementById('post-status');
   const form = e.target;
   const file = form.file.files[0];
 
@@ -17,7 +18,6 @@ document.querySelectorAll('.post-form').forEach(el => el.addEventListener('submi
     body: new FormData(form)
   });
 
-  const status = document.getElementById('post-status');
   const json = await res.json();
   if (res.ok) {
     status.style.display = 'block';

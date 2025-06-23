@@ -16,8 +16,7 @@ public class Post {
   private String title;
   private LocalDateTime createdAt;
   private String attachmentExtension;
-  private String op;
-  private String trip;
+  private String author;
 
   public Post() {
     this.deleted = false;
@@ -97,19 +96,11 @@ public class Post {
     this.attachmentExtension = attachmentExtension;
   }
 
-  public String getOp() {
-    return op;
+  public String getAuthor() {
+    return author;
   }
 
-  public void setOp(String op) {
-    this.op = op;
-  }
-
-  public String getTrip() {
-    return trip;
-  }
-
-  public void setTrip(String trip) {
-    this.trip = trip;
+  public void setAuthor(String author) {
+    this.author = author;
   }
 }

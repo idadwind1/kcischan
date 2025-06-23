@@ -16,6 +16,8 @@ public class Post {
   private String title;
   private LocalDateTime createdAt;
   private String attachmentExtension;
+  private String op;
+  private String trip;
 
   public Post() {
     this.deleted = false;
@@ -93,5 +95,21 @@ public class Post {
 
   public void setAttachmentExtension(String attachmentExtension) {
     this.attachmentExtension = attachmentExtension;
+  }
+
+  public String getOp() {
+    return op;
+  }
+
+  public void setOp(String op) {
+    this.op = op;
+  }
+
+  public String getTrip() {
+    return trip;
+  }
+
+  public void setTrip(String trip) {
+    this.trip = trip;
   }
 }

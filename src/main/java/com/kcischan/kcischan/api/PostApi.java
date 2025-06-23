@@ -9,9 +9,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 
+import com.kcischan.kcischan.config.TripCodeConfig;
 import com.kcischan.kcischan.model.Post;
 import com.kcischan.kcischan.repository.PostRepository;
 import com.kcischan.kcischan.service.SessionService;
+import com.kcischan.kcischan.service.TripCodeService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,6 +31,10 @@ public class PostApi {
   SessionService sessionService;
   @Autowired
   private PostRepository postRepo;
+  @Autowired
+  private TripCodeService tripCodeService;
+  @Autowired
+  private TripCodeConfig tripCodeConfig;
 
   @RequestMapping(value = "/api/post", method = RequestMethod.POST)
   public ResponseEntity<Map<String, Object>> post(
@@ -38,6 +44,7 @@ public class PostApi {
       @RequestParam("captcha") String captcha,
       @RequestParam(value = "attachment", required = false) MultipartFile file,
       @RequestParam(value = "parent_id", required = false) String parentId,
+      @RequestParam(value = "op", required = false) String op,
       HttpSession session) throws IOException {
 
     sessionService.assertCaptcha(session, captcha);
@@ -60,6 +67,21 @@ public class PostApi {
 
     Post newPost = new Post();
     newPost.setId(NanoIdUtils.randomNanoId(NanoIdUtils.DEFAULT_NUMBER_GENERATOR, NanoIdUtils.DEFAULT_ALPHABET, 10));
+
+    if (op == null || op.isBlank()) {
+      if (op.contains("##")) {
+        String[] tripParts;
+        if (op.indexOf("##") == op.indexOf("#")) {
+          tripParts = op.split("##", 2);
+          newPost.setOp(tripParts[0]);
+          newPost.setTrip(tripCodeService.encryptTrip(tripCodeConfig.getSecretSalt() + tripParts[1]));
+        } else {
+          tripParts = op.split("#", 2);
+          newPost.setOp(tripParts[0]);
+          newPost.setTrip(tripCodeService.encryptTrip(tripParts[1]));
+        }
+      }
+    }
 
     if (sessionService.isUserLoggedIn(session)) {
       newPost.setFromAdmin(true);

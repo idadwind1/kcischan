@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
   <meta charset="UTF-8" />
-  <title th:text="'Board ' + ${board.id} + ' - Kcischan'">Board</title>
+  <title th:text="'版区 ' + ${board.id} + ' - Kcischan'"></title>
   <script src="/assets/js/captcha.js"></script>
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
   <header>
-    <a href="/">&larr; Back to Homepage</a>
-    <h1 th:text="${board.id} + ': ' + ${board.name}">Board</h1>
-    <p class="subtitle" th:text="${board.description}">Board description</p>
+    <a href="/">&larr; 返回主页</a>
+    <h1 th:text="${board.id} + ': ' + ${board.name}"></h1>
+    <p class="subtitle" th:text="${board.description}"></p>
   </header>
 
   <main class="content-middle-container">
     <th:block th:insert="~{fragments/post :: postForm(${board.id}, null, ${isAdmin})}" />
 
     <div class="gap-2 flex-vertical">
-      <h2 th:if="${#lists.isEmpty(threads)}">Nothing
-        is here... yet</h2>
+      <h2 th:if="${#lists.isEmpty(threads)}">这里... 还什么都没有</h2>
 
       <th:block th:if="${pinnedPost}" th:insert="~{fragments/post :: postCard(${pinnedPost}, true, false)}" />
 

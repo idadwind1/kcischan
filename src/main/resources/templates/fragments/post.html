@@ -1,12 +1,12 @@
 <!-- Description -->
 <div th:fragment="description(post, isPinned)">
-  <p th:if="${post.fromAdmin}" style="color: red;">From Admin</p>
-  <p th:if="${post.deleted}" style="color: red;">Deleted</p>
-  <p th:if="${post.author}" th:text="@{'From ' + ${post.author}}" class="text-normal">From</p>
-  <p th:unless="${post.author}">From Anonymous</p>
+  <p th:if="${post.fromAdmin}" style="color: red;">来自管理员</p>
+  <p th:if="${post.deleted}" style="color: red;">已删除</p>
+  <p th:if="${post.author}" th:text="@{'来自 ' + ${post.author}}" class="text-normal">来自</p>
+  <p th:unless="${post.author}">来自 匿名</p>
   <p>
-    <span th:if="${isPinned}">Pinned; </span>
-    <span th:text="${post.id} + '; Started on ' + ${post.createdAt}"></span>
+    <span th:if="${isPinned}">已置顶；</span>
+    <span th:text="${post.id} + '；发表于 ' + ${post.createdAt}"></span>
   </p>
 </div>
 
@@ -15,7 +15,7 @@
   <div th:if="${post.attachmentExtension != null}">
   </div>
 
-  <div class="markdown-content" th:text="${post.content}">Post Content</div>
+  <div class="markdown-content" th:text="${post.content}">帖子内容</div>
 </div>
 
 <!-- post card -->
@@ -23,7 +23,7 @@
   <a th:href="@{'/post/' + ${post.id}}" class="no-underline">
     <div class="bold">
       <div th:if="${isPinned}">📌</div>
-      <div th:text="${post.title}">Post Title</div>
+      <div th:text="${post.title}">帖子标题</div>
     </div>
 
     <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned})}">
@@ -35,14 +35,14 @@
 
 <!-- form -->
 <form th:fragment="postForm(board, parent, isAdmin)" class="box post-form spacey-1">
-  <input type="text" name="title" placeholder="Title" required />
-  <input type="text" name="author" placeholder="Author (Optional)" />
+  <input type="text" name="title" placeholder="标题" required />
+  <input type="text" name="author" placeholder="作者（可选）" />
   <input type="hidden" name="board" th:value="${board}" />
   <input type="hidden" name="parent_id" th:value="${parent}" />
   <div>
-    <textarea id="content" name="content" placeholder="Content... (At least 10 characters)" required></textarea>
+    <textarea id="content" name="content" placeholder="内容……（至少10个字符）" required></textarea>
     <p class="flex-rightmost">
-      <a href="https://en.wikipedia.org/wiki/Markdown" title="Markdown supported">
+      <a href="https://en.wikipedia.org/wiki/Markdown" title="支持 Markdown">
         <svg aria-hidden="true" focusable="false" class="octicon octicon-markdown" viewBox="0 0 16 16" width="16"
           height="16" fill="currentColor" display="inline-block" overflow="visible"
           style="vertical-align: text-bottom;">
@@ -55,20 +55,20 @@
   </div>
 
   <div class="no-margin">
-    <label for="file" class="color-accent">Attachment (Optional): </label>
+    <label for="file" class="color-accent">附件（可选）：</label>
     <input type="file" name="attachment" id="file" />
   </div>
 
   <img src="/captcha.jpg" id="captcha" />
 
   <div>
-    <input class="auto-width" type="text" name="captcha" id="captcha_input" placeholder="Solve captcha" />
-    <button type="submit" th:unless="${isAdmin}">Post</button>
+    <input class="auto-width" type="text" name="captcha" id="captcha_input" placeholder="请输入验证码" />
+    <button type="submit" th:unless="${isAdmin}">发布</button>
   </div>
 
   <div th:if="${isAdmin}">
-    <button type="submit">Post As Admin</button>
-    <a id="logout-admin" href="javascript:void(0)">Logout</a>
+    <button type="submit">以管理员身份发布</button>
+    <a id="logout-admin" href="javascript:void(0)">退出登录</a>
   </div>
   <span id="post-status" class="status-label"></span>
 </form>

@@ -47,19 +47,19 @@ public class PostApi {
     sessionService.assertCaptcha(session, captcha);
 
     if (title.isBlank()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title can't be none");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "标题不能为空");
     }
 
     if (content.isBlank() && file.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Content can't be none");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容不能为空");
     }
 
     if (content.length() > 3000) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Content is too long");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容太长了 (3000字以内)");
     }
 
     if (content.length() < 10) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Content is too short");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "内容太短了");
     }
 
     Post newPost = new Post();
@@ -67,7 +67,7 @@ public class PostApi {
 
     if (author != null && !author.isBlank()) {
       if (author.contains("!")) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author name cannot contain exclamation mark");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "发帖人名称不能包含感叹号");
       }
       newPost.setAuthor(tripcodeService.encryptTripcode(author));
     }
@@ -93,12 +93,12 @@ public class PostApi {
       parentId = null;
 
     if (parentId != null) {
-      Post parentPost = postRepo.findById(parentId).orElse(null);
+      Post parentPost = postRepo.findByIdVisible(parentId).orElse(null);
       if (parentId != null && parentPost == null) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post not found");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "找不到父帖子");
       }
       if (parentPost.getBoard() != board) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post does not belong to the same board");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "父帖子不属于同一版块");
       }
     }
 
@@ -111,7 +111,7 @@ public class PostApi {
     Post saved = postRepo.save(newPost);
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Post created!",
+        "message", "帖子已创建！",
         "postId", saved.getId()));
   }
 

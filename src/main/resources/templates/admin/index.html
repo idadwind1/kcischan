@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel - Kcischan</title>
+  <title>管理员面板 - Kcischan</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <style>
@@ -17,35 +17,34 @@
 
 <body>
   <main class="box">
-    <h1>Admin Panel</h1>
+    <h1>管理员面板</h1>
 
     <div id="username">
       <span th:text="${username}"></span>
       <a href="/api/admin/logout">
-        Logout
+        退出登录
       </a>
     </div>
 
     <form id="delete-form" action="/api/admin/delete" method="POST" enctype="multipart/form-data" class="spacey-1">
-      <p class="bold">Delete Post (Will still be stored in database)
-      </p>
-      <input type="text" name="post" placeholder="Post ID" required>
-      <button type="submit">Delete</button>
+      <p class="bold">删除帖子（数据库中仍会保存）</p>
+      <input type="text" name="post" placeholder="帖子ID" required>
+      <button type="submit">删除</button>
       <div id="delete-status" class="status-label hidden"></div>
     </form>
 
     <form id="recover-form" action="/api/admin/recover" method="POST" enctype="multipart/form-data" class="spacey-1">
-      <p class="bold">Recover Deleted Post</p>
-      <input type="text" name="post" placeholder="Post ID" required>
-      <button type="submit">Recover</button>
+      <p class="bold">恢复已删除帖子</p>
+      <input type="text" name="post" placeholder="帖子ID" required>
+      <button type="submit">恢复</button>
       <div id="recover-status" class="status-label hidden"></div>
     </form>
 
     <form id="edit-blog-form" action="/api/admin/edit_blog" method="POST" enctype="multipart/form-data"
       class="spacey-1">
-      <p class="bold">Edit About Page (Markdown supported)</p>
+      <p class="bold">编辑关于页面（支持 Markdown）</p>
       <p>
-        IDs:
+        页面ID 列表：
         <br />
         /about: 1
         <br />
@@ -53,76 +52,76 @@
         <br />
         /about/rules: 3
       </p>
-      <input type="text" name="blog" placeholder="ID" required>
-      <textarea name="content" rows="6" placeholder="New content..." required></textarea>
-      <button type="submit">Save Changes</button>
+      <input type="text" name="blog" placeholder="页面ID" required>
+      <textarea name="content" rows="6" placeholder="新内容..." required></textarea>
+      <button type="submit">保存更改</button>
       <div id="edit-blog-status" class="status-label hidden"></div>
     </form>
 
     <form id="board-form" action="/api/admin/change_board_info" method="POST" class="spacey-1">
-      <p class="bold">Edit Boards Info</p>
+      <p class="bold">编辑版区信息</p>
       <p>
-        Leave blank for field you would not want to change
+        不修改的字段请留空
         <br />
-        Beware that you won't want to normally change a name or description of a board. Use with caution
+        请谨慎操作，通常不建议修改版区名称或描述
       </p>
-      <input type="text" name="boardId" placeholder="Board Id" required />
-      <input type="text" name="name" placeholder="New Name" />
-      <input type="text" name="description" placeholder="New Description" />
-      <input type="text" name="pinnedPostId" placeholder="New Pinned Post Id" />
-      <button type="submit">Save Changes</button>
-      <button type="button" id="btn-unset-pinned-post">Unset Pinned Post</button>
+      <input type="text" name="boardId" placeholder="版区ID" required />
+      <input type="text" name="name" placeholder="新名称" />
+      <input type="text" name="description" placeholder="新描述" />
+      <input type="text" name="pinnedPostId" placeholder="新置顶帖子ID" />
+      <button type="submit">保存更改</button>
+      <button type="button" id="btn-unset-pinned-post">取消置顶帖子</button>
       <div id="board-status" class="status-label hidden"></div>
     </form>
 
     <form id="password-form" action="/api/admin/change_password" method="POST" class="spacey-1">
-      <p class="bold">Change Password</p>
-      <input type="password" name="oldPassword" placeholder="Old Password" />
-      <input type="password" name="newPassword" id="password" placeholder="New Password" required />
-      <input type="password" id="password-repeat" placeholder="Repeat Password" required />
-      <button type="submit">Change Password</button>
+      <p class="bold">修改密码</p>
+      <input type="password" name="oldPassword" placeholder="旧密码" />
+      <input type="password" name="newPassword" id="password" placeholder="新密码" required />
+      <input type="password" id="password-repeat" placeholder="重复新密码" required />
+      <button type="submit">修改密码</button>
       <div id="password-status" class="status-label hidden"></div>
     </form>
 
-    <a href="/">Go to homepage (session will be saved and can be used to send admin posts)</a>
+    <a href="/">返回主页（会话将被保存，可用于发送管理员帖子）</a>
   </main>
 
   <script>
     document.getElementById("delete-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      await postApi('/api/admin/delete', new FormData(e.target), document.getElementById('delete-status'), "Post deleted successfully!");
+      await postApi('/api/admin/delete', new FormData(e.target), document.getElementById('delete-status'), "帖子删除成功！");
     });
 
     document.getElementById("recover-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      await postApi('/api/admin/recover', new FormData(e.target), document.getElementById('recover-status'), "Post recovered successfully!");
+      await postApi('/api/admin/recover', new FormData(e.target), document.getElementById('recover-status'), "帖子恢复成功！");
     });
 
     document.getElementById("edit-blog-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      await postApi('/api/admin/edit_blog', new FormData(e.target), document.getElementById('edit-blog-status'), "Blog updated successfully!");
+      await postApi('/api/admin/edit_blog', new FormData(e.target), document.getElementById('edit-blog-status'), "博客更新成功！");
     });
 
     document.getElementById('password-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const status = document.getElementById('password-status');
       if (document.getElementById('password').value !== document.getElementById('password-repeat').value) {
-        appendStatusText(status, false, "Passwords do not match!");
+        appendStatusText(status, false, "两次输入的密码不匹配！");
         return;
       }
-      await postApi('/api/admin/change_password', new FormData(e.target), status, "Password changed successfully!");
+      await postApi('/api/admin/change_password', new FormData(e.target), status, "密码修改成功！");
     });
 
     document.getElementById('board-form').addEventListener('submit', async function (e) {
       e.preventDefault();
-      await postApi('/api/admin/change_board_info', new FormData(e.target), document.getElementById('board-status'), "Board updated successfully!");
+      await postApi('/api/admin/change_board_info', new FormData(e.target), document.getElementById('board-status'), "版区更新成功！");
     });
 
     document.getElementById('btn-unset-pinned-post').addEventListener('click', async function () {
       const boardId = document.querySelector('input[name="boardId"]').value;
       const formData = new FormData();
       formData.append('boardId', boardId);
-      await postApi('/api/admin/unset_pinned_post', formData, document.getElementById('board-status'), "Pinned post unset");
+      await postApi('/api/admin/unset_pinned_post', formData, document.getElementById('board-status'), "已取消置顶帖子");
     });
 
     async function postApi(url, formData, status, successMessage) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8" />
@@ -15,14 +15,13 @@
 
 <body>
   <header>
-    <a href="/">&larr; Back to Homepage</a>
-    <h1 th:text="${title}">Title</h1>
+    <a href="/">&larr; 返回主页</a>
+    <h1 th:text="${title}"></h1>
   </header>
 
   <main class="content-middle-container">
-    <p th:text="'Last Updated: ' + ${last_update}" class="color-accent"></p>
+    <p th:text="'最后更新：' + ${last_update}" class="color-accent"></p>
     <div th:utext="${content}" class="markdown-content box no-margin">
-      Content
     </div>
   </main>
 </body>

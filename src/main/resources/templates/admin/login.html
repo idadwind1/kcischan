@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Login - Kcischan</title>
+  <title>管理员登录 - Kcischan</title>
   <link rel="stylesheet" href="/assets/css/style.css">
   <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
   <script src="/assets/js/captcha.js"></script>
@@ -13,23 +13,23 @@
   <main class="content-center-screen-container">
     <div class="box spacey-2">
       <form class="flex-vertical gap-2" id="login">
-        <h2>Admin Login 💼</h2>
+        <h2>管理员登录 💼</h2>
 
-        <input type="text" id="username" name="username" placeholder="Username..." required />
+        <input type="text" id="username" name="username" placeholder="用户名..." required />
 
-        <input type="password" id="password" name="password" placeholder="Password..." />
+        <input type="password" id="password" name="password" placeholder="密码..." />
 
         <div>
           <img src="/captcha.jpg" id="captcha" />
-          <input class="full-width" type="text" name="captcha" id="captcha-input" placeholder="Solve captcha" />
+          <input class="full-width" type="text" name="captcha" id="captcha-input" placeholder="请输入验证码" />
         </div>
 
         <button type="submit">
-          Login
+          登录
         </button>
 
         <p class="text-center">
-          <a href="/">Not a place for you? go back to homepage</a>
+          <a href="/">不属于这里？点此返回主页</a>
         </p>
       </form>
 
@@ -52,7 +52,7 @@
       const json = await res.json();
       if (res.ok) {
         status.style.display = 'block';
-        status.textContent = 'Logged in!';
+        status.textContent = '登录成功！';
         status.style.color = 'green';
         setTimeout(() => location.reload(), 500);
         form.reset();

@@ -55,11 +55,11 @@ public class AdminApi {
     sessionService.assertCaptcha(session, captcha);
 
     if (username.isBlank()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username is required");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "用户名为必填项");
     }
 
     if (loginService.isBlocked(username)) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Too many login attempts, please try again later");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "尝试登录次数过多，请稍后再试");
     }
 
     Optional<Admin> matchedAdmin = adminRepo.findByUsername(username);
@@ -67,8 +67,8 @@ public class AdminApi {
         || !loginService.verifyPassword(password, matchedAdmin.get().getPassword())) {
       loginService.loginFailed(username);
       throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-          "Wrong username or password. " + loginService.getRemainingAttempts(username)
-              + " attempts left before cooldown");
+          "用户名或密码错误。还有" + loginService.getRemainingAttempts(username)
+              + "次尝试机会后将进入冷却");
     }
 
     session.setAttribute("loggedIn", matchedAdmin.get());
@@ -76,7 +76,7 @@ public class AdminApi {
 
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Logged in successfully"));
+        "message", "登录成功"));
   }
 
   @RequestMapping(value = "/api/admin/delete", method = RequestMethod.POST)
@@ -85,7 +85,7 @@ public class AdminApi {
 
     Optional<Post> post = postRepo.findByIdVisible(postId);
     if (post.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Post not found");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "帖子未找到");
     }
 
     Post newPost = post.get();
@@ -93,7 +93,7 @@ public class AdminApi {
     postRepo.save(newPost);
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Post deleted successfully"));
+        "message", "帖子删除成功"));
   }
 
   @RequestMapping(value = "/api/admin/recover", method = RequestMethod.POST)
@@ -102,7 +102,7 @@ public class AdminApi {
 
     Optional<Post> post = postRepo.findById(postId);
     if (post.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Post not found");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "帖子未找到");
     }
 
     Post newPost = post.get();
@@ -110,7 +110,7 @@ public class AdminApi {
     postRepo.save(newPost);
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Post recovered successfully"));
+        "message", "帖子恢复成功"));
   }
 
   @RequestMapping(value = "/api/admin/edit_blog", method = RequestMethod.POST)
@@ -122,7 +122,7 @@ public class AdminApi {
 
     Optional<Blog> blog = blogRepo.findById(blogId);
     if (blog.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Blog not found");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "页面未找到");
     }
 
     Blog newBlog = blog.get();
@@ -131,7 +131,7 @@ public class AdminApi {
     blogRepo.save(newBlog);
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Blog updated successfully"));
+        "message", "页面更新成功"));
   }
 
   @RequestMapping(value = "/api/admin/change_password", method = RequestMethod.POST)
@@ -142,12 +142,12 @@ public class AdminApi {
     logger.info("Admin {} is changing password", sessionService.getLoggedInAdmin(session).getUsername());
 
     if (newPassword.isBlank()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "New password is required");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "新密码为必填项");
     }
 
     Admin loggedInAdmin = sessionService.getLoggedInAdmin(session);
     if (loggedInAdmin == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in to change password");
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "必须登录才能更改密码");
     }
     Optional<Admin> matchedAdmin = adminRepo
         .findById(String.valueOf(loggedInAdmin.getId()));
@@ -155,8 +155,8 @@ public class AdminApi {
         || !loginService.verifyPassword(oldPassword, matchedAdmin.get().getPassword())) {
       loginService.loginFailed(loggedInAdmin.getUsername());
       throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-          "Wrong old password. " + loginService.getRemainingAttempts(loggedInAdmin.getUsername())
-              + " attempts left before cooldown");
+          "旧密码错误。还有" + loginService.getRemainingAttempts(loggedInAdmin.getUsername())
+              + "次尝试机会后将进入冷却");
     }
 
     Admin newAdmin = matchedAdmin.get();
@@ -164,7 +164,7 @@ public class AdminApi {
     adminRepo.save(newAdmin);
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Password changed successfully"));
+        "message", "密码更改成功"));
   }
 
   @RequestMapping(value = "/api/admin/get_post", method = RequestMethod.POST)
@@ -180,7 +180,7 @@ public class AdminApi {
 
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Post retrieved successfully",
+        "message", "Post 帖子检索成功",
         "post", post.get()));
   }
 
@@ -195,13 +195,13 @@ public class AdminApi {
 
     if (newName.isBlank() && newDescription.isBlank() && newPinnedPostId.isBlank()) {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-          "At least one of name, description, or pinned post ID must be provided");
+          "名称、描述或置顶帖ID至少需填写一项");
     }
 
     Optional<Board> board = boardRepo.findById(boardId);
 
     if (board.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Board not found");
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "版块未找到");
     }
 
     Board newBoard = board.get();
@@ -215,14 +215,14 @@ public class AdminApi {
       Optional<Post> pinnedPost = postRepo.findById(newPinnedPostId);
       if (pinnedPost.isEmpty()) {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-            "Pinned post not found");
+            "置顶帖子未找到");
       }
       newBoard.setPinnedPostId(pinnedPost.get().getId());
     }
 
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Board information updated successfully",
+        "message", "版块信息更新成功",
         "board", boardRepo.save(newBoard)));
   }
 
@@ -244,7 +244,7 @@ public class AdminApi {
 
     return ResponseEntity.ok(Map.of(
         "success", true,
-        "message", "Pinned post unset successfully",
+        "message", "取消置顶帖子成功",
         "board", newBoard));
   }
 }

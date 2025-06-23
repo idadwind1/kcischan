@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
   <meta charset="UTF-8">
-  <title>Kcischan Boards</title>
+  <title>Kcischan</title>
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
-
 <body>
-  <a class="hidden-link" href="admin/">Admin login</a>
+  <a class="hidden-link" href="admin/">管理员登录</a>
 
-  <header class=" bold">
+  <header class="bold">
     <h1>
-      Welcome to Kcischan
+      欢迎来到 Kcischan
     </h1>
     <p class="subtitle">
-      Absolute anomonous 4chan-like channel.
+      完全匿名的类 4chan 频道。
       <br />
-      Choose one of the following boards to get started, or read our <a href="/about">about page</a>
-      first!
+      请选择以下其中一个版区开始使用，或者先阅读我们的 <a href="/about">关于页面</a>！
     </p>
   </header>
 
   <div class="index-container bold">
     <a th:each="board : ${boards}" th:href="@{'/board/' + ${board.id}}" class="no-underline card box">
-      <p th:text="${board.name}">Board Name</p>
-      <p th:text="${board.description}">Board description...</p>
+      <p th:text="${board.name}"></p>
+      <p th:text="${board.description}"></p>
     </a>
   </div>
 </body>

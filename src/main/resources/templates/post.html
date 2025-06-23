@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title th:text="${post.title} + ' - Kcischan'">Thread</title>
+  <title th:text="${post.title} + ' - Kcischan'"></title>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/markdown.css" />
@@ -14,12 +14,11 @@
 
 <body>
   <header>
-    <a th:if="${post.parentId}" th:href="@{'/post/' + ${post.parentId}}">&larr; Back to Parent Post</a>
-    <a th:unless="${post.parentId}" th:href="@{'/board/' + ${post.board}}">&larr; Back to Board</a>
+    <a th:if="${post.parentId}" th:href="@{'/post/' + ${post.parentId}}">&larr; 返回上级</a>
+    <a th:unless="${post.parentId}" th:href="@{'/board/' + ${post.board}}">&larr; 返回版区</a>
     <div class="box">
-      <h1 th:text="${post.title}">Thread Title</h1>
+      <h1 th:text="${post.title}"></h1>
       <div class="subtitle">
-
         <th:block th:insert="~{fragments/post :: description(${post}, false)}" />
       </div>
     </div>
@@ -31,8 +30,8 @@
     <th:block th:insert="~{fragments/post :: postForm(${post.board}, ${post.id}, ${isAdmin})}" />
 
     <div>
-      <h1>Replies</h1>
-      <h2 th:if="${#lists.isEmpty(replies)}">Nothing is here... yet</h2>
+      <h1>回复</h1>
+      <h2 th:if="${#lists.isEmpty(replies)}">这里... 还什么都没有</h2>
     </div>
 
     <div class="gap-2 flex-vertical">

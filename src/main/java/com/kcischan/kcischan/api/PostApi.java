@@ -93,7 +93,7 @@ public class PostApi {
       parentId = null;
 
     if (parentId != null) {
-      Post parentPost = postRepo.findById(parentId).orElse(null);
+      Post parentPost = postRepo.findByIdVisible(parentId).orElse(null);
       if (parentId != null && parentPost == null) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post not found");
       }

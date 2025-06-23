@@ -20,8 +20,7 @@ CREATE TABLE `posts` (
   `parent_id` varchar(10) DEFAULT NULL,
   `title` varchar(100) NOT NULL,
   `attachment_extension` tinytext DEFAULT NULL,
-  `op` varchar(100) DEFAULT NULL,
-  `trip` varchar(100) DEFAULT NULL,
+  `author` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 DROP TABLE IF EXISTS `boards`;

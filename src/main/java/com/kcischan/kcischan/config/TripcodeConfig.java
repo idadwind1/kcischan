@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TripCodeConfig {
-
+public class TripcodeConfig {
   @Value("${tripcode.secret-salt}")
   private String secretSalt;
 
-  public String getSecretSalt() {
+  public String getSalt() {
     return secretSalt;
   }
 }

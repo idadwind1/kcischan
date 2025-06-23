@@ -2,6 +2,8 @@
 <div th:fragment="description(post, isPinned)">
   <p th:if="${post.fromAdmin}" style="color: red;">From Admin</p>
   <p th:if="${post.deleted}" style="color: red;">Deleted</p>
+  <p th:if="${post.author}" th:text="@{'From ' + ${post.author}}" class="text-normal">From</p>
+  <p th:unless="${post.author}">From Anonymous</p>
   <p>
     <span th:if="${isPinned}">Pinned; </span>
     <span th:text="${post.id} + '; Started on ' + ${post.createdAt}"></span>
@@ -34,10 +36,9 @@
 <!-- form -->
 <form th:fragment="postForm(board, parent, isAdmin)" class="box post-form spacey-1">
   <input type="text" name="title" placeholder="Title" required />
-
+  <input type="text" name="author" placeholder="Author (Optional)" />
   <input type="hidden" name="board" th:value="${board}" />
   <input type="hidden" name="parent_id" th:value="${parent}" />
-
   <div>
     <textarea id="content" name="content" placeholder="Content... (At least 10 characters)" required></textarea>
     <p class="flex-rightmost">

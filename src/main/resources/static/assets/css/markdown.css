@@ -23,3 +23,40 @@
 .markdown-content h6 {
   font-size: 1rem;
 }
+
+.markdown-content ul,
+.markdown-content ol {
+  padding-left: 1.5rem;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+}
+
+.markdown-content ol ol,
+.markdown-content ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-content ol ol ol,
+.markdown-content ul ol ol,
+.markdown-content ol ul ol,
+.markdown-content ul ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-content ul ul,
+.markdown-content ol ul {
+  list-style-type: circle;
+}
+
+.markdown-content ul ul ul,
+.markdown-content ol ul ul,
+.markdown-content ul ol ul,
+.markdown-content ol ol ul {
+  list-style-type: square;
+}

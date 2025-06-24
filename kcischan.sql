@@ -35,16 +35,16 @@ CREATE TABLE `boards` (
 LOCK TABLES `boards` WRITE;
 INSERT INTO `boards` VALUES
 (-2,'Uncensored','CONGRADUATION!!! YOU\'VE REACHED THE OUTLAWLAND!!!!!!!!',NULL,1),
-(-1,'Hacking','Congraduation!!! You\'ve reached the ultimate board!',NULL),
+(-1,'Hacking','Congraduation!!! You\'ve reached the ultimate board!',NULL,1),
 (0,'Test','Testiuguo gfilyvsf vbiyfl gdv yi',NULL,1),
 (1,'Random','Ripped off /b/. Almost everything is permitted',NULL,1),
 (2,'Homework','Seek help for homework & ask for notes',NULL,0),
-(3,'Games','Share things about games!',NULL,0),
-(4,'Deals','Trade things!',NULL,0),
+(3,'Games','Share things about games',NULL,0),
+(4,'Deals','Trade things',NULL,0),
 (5,'Romatic','Place to discuss & confess love',NULL,0),
-(6,'Gossip','Share insane gossip you have heard!',NULL,0),
+(6,'Gossip','Share insane gossip you have heard',NULL,0),
 (7,'Anime & Manga','Anime & Manga topic',NULL,0),
-(8,'Complains','Complain the school, your teacher, or events!',NULL,0),
+(8,'Complains','Complain the school, your teacher, or events',NULL,0),
 (9,'Technology','Discuss & seek help for technologies',NULL,0),
 (10,'Piracy','Share pirated software, media, or torrent',NULL,0),
 (11,'Support','Ask for support from admins (could be suggestions or reports)',NULL,0);

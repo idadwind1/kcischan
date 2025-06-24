@@ -1,9 +1,9 @@
 <!-- Description -->
-<div th:fragment="description(post, isPinned)">
+<div th:fragment="description(post, isPinned, showBoard)">
+  <p th:unless="${post.author}" class="text-normal">来自 匿名</p>
+  <p th:if="${post.author}" th:text="@{'来自 ' + ${post.author}}" class="text-normal">来自</p>
   <p th:if="${post.fromAdmin}" style="color: red;">来自管理员</p>
   <p th:if="${post.deleted}" style="color: red;">已删除</p>
-  <p th:if="${post.author}" th:text="@{'来自 ' + ${post.author}}" class="text-normal">来自</p>
-  <p th:unless="${post.author}">来自 匿名</p>
   <p>
     <span th:if="${isPinned}">已置顶；</span>
     <span th:text="${post.id} + '；发表于 ' + ${post.createdAt}"></span>
@@ -19,14 +19,14 @@
 </div>
 
 <!-- post card -->
-<div th:fragment="postCard(post, isPinned, showContent)" class="card box">
+<div th:fragment="postCard(post, isPinned, showContent, showBoard)" class="card box">
   <a th:href="@{'/post/' + ${post.id}}" class="no-underline">
     <div class="bold">
       <div th:if="${isPinned}">📌</div>
       <div th:text="${post.title}">帖子标题</div>
     </div>
 
-    <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned})}">
+    <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned}, ${showBoard})}">
     </div>
   </a>
 

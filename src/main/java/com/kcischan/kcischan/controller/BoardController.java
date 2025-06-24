@@ -30,17 +30,17 @@ public class BoardController {
 
   @GetMapping("/board/{board}")
   public String board(@PathVariable("board") String boardId, Model model, HttpSession session) {
-    List<Post> threads;
+    List<Post> posts;
     if (sessionService.isUserLoggedIn(session)) {
-      threads = postRepo.findByBoardAndParentIdIsNullOrderByCreatedAtDesc(boardId);
+      posts = postRepo.findByBoardAndParentIdIsNullOrderByCreatedAtDesc(boardId);
     } else {
-      threads = postRepo.findByBoardAndParentIdIsNullVisibleOrderByCreatedAtDesc(boardId);
+      posts = postRepo.findByBoardAndParentIdIsNullVisibleOrderByCreatedAtDesc(boardId);
     }
 
     Optional<Board> board = boardRepo.findById(boardId);
     if (board.isEmpty())
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No such board found");
-    model.addAttribute("threads", threads);
+    model.addAttribute("posts", posts);
     model.addAttribute("board", board.get());
     if (sessionService.isUserLoggedIn(session))
       model.addAttribute("isAdmin", true);
@@ -55,7 +55,7 @@ public class BoardController {
   }
 
   @GetMapping("/post/{postId}")
-  public String thread(@PathVariable("postId") String threadId, Model model, HttpSession session) {
+  public String post(@PathVariable("postId") String threadId, Model model, HttpSession session) {
     Optional<Post> rootOpt;
     if (sessionService.isUserLoggedIn(session))
       rootOpt = postRepo.findById(threadId);
@@ -78,5 +78,22 @@ public class BoardController {
     else
       model.addAttribute("isAdmin", false);
     return "post";
+  }
+
+  @GetMapping("/allposts")
+  public String allPosts(Model model, HttpSession session) {
+    List<Post> posts;
+    if (sessionService.isUserLoggedIn(session)) {
+      posts = postRepo.findAll();
+    } else {
+      posts = postRepo.findAllVisible();
+    }
+
+    model.addAttribute("posts", posts);
+    // if (sessionService.isUserLoggedIn(session))
+    // model.addAttribute("isAdmin", true);
+    // else
+    // model.addAttribute("isAdmin", false);
+    return "allposts";
   }
 }

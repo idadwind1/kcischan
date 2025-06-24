@@ -1,9 +1,11 @@
 <!-- Description -->
-<div th:fragment="description(post, isPinned)">
+<div th:fragment="description(post, isPinned, showBoard)">
+  <p th:unless="${post.author}" class="text-normal">From Anonymous</p>
+  <p th:if="${post.author}" th:text="@{'From ' + ${post.author}}" class="text-normal">From</p>
+  <p th:if="${showBoard}" th:text="@{'Board: ' + ${post.board}}" class="text-normal"></p>
+
   <p th:if="${post.fromAdmin}" style="color: red;">From Admin</p>
   <p th:if="${post.deleted}" style="color: red;">Deleted</p>
-  <p th:if="${post.author}" th:text="@{'From ' + ${post.author}}" class="text-normal">From</p>
-  <p th:unless="${post.author}">From Anonymous</p>
   <p>
     <span th:if="${isPinned}">Pinned; </span>
     <span th:text="${post.id} + '; Started on ' + ${post.createdAt}"></span>
@@ -19,14 +21,14 @@
 </div>
 
 <!-- post card -->
-<div th:fragment="postCard(post, isPinned, showContent)" class="card box">
+<div th:fragment="postCard(post, isPinned, showContent, showBoard)" class="card box">
   <a th:href="@{'/post/' + ${post.id}}" class="no-underline">
     <div class="bold">
       <div th:if="${isPinned}">📌</div>
       <div th:text="${post.title}">Post Title</div>
     </div>
 
-    <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned})}">
+    <div class="text-small" th:insert="~{this :: description(${post}, ${isPinned}, ${showBoard})}">
     </div>
   </a>
 

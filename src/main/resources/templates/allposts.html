@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>All posts - Kcischan</title>
+  <script src="/assets/js/captcha.js"></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <header>
+    <a href="/">&larr; Back to Homepage</a>
+    <h1>All posts</h1>
+  </header>
+
+  <main class="content-middle-container">
+    <div class="gap-2 flex-vertical">
+      <h2 th:if="${#lists.isEmpty(posts)}">Nothing
+        is here... yet</h2>
+
+      <th:block th:each="post : ${posts}">
+        <th:block th:insert="~{fragments/post :: postCard(${post}, false, false, true)}" />
+      </th:block>
+    </div>
+  </main>
+
+  <script src="/assets/js/postForm.js"></script>
+</body>
+
+</html>

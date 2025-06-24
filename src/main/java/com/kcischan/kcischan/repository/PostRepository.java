@@ -21,4 +21,10 @@ public interface PostRepository extends JpaRepository<Post, String> {
 
   @Query(value = "SELECT * FROM posts WHERE parent_id = :parentId ORDER BY created_at ASC", nativeQuery = true)
   List<Post> findByParentIdOrderByCreatedAtAsc(@Param("parentId") String parentId);
+
+  @Query(value = "SELECT * FROM posts", nativeQuery = true)
+  List<Post> findAll();
+
+  @Query(value = "SELECT * FROM posts WHERE deleted = 0", nativeQuery = true)
+  List<Post> findAllVisible();
 }

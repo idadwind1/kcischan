@@ -19,14 +19,14 @@
     <th:block th:insert="~{fragments/post :: postForm(${board.id}, null, ${isAdmin})}" />
 
     <div class="gap-2 flex-vertical">
-      <h2 th:if="${#lists.isEmpty(threads)}">Nothing
+      <h2 th:if="${#lists.isEmpty(posts)}">Nothing
         is here... yet</h2>
 
-      <th:block th:if="${pinnedPost}" th:insert="~{fragments/post :: postCard(${pinnedPost}, true, false)}" />
+      <th:block th:if="${pinnedPost}" th:insert="~{fragments/post :: postCard(${pinnedPost}, true, false, false)}" />
 
-      <th:block th:each="post : ${threads}">
+      <th:block th:each="post : ${posts}">
         <th:block th:unless="${pinnedPost} and ${pinnedPost.id == post.id}"
-          th:insert="~{fragments/post :: postCard(${post}, false, false)}" />
+          th:insert="~{fragments/post :: postCard(${post}, false, false, false)}" />
       </th:block>
     </div>
   </main>

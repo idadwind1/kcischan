@@ -20,7 +20,7 @@
       <h1 th:text="${post.title}">Thread Title</h1>
       <div class="subtitle">
 
-        <th:block th:insert="~{fragments/post :: description(${post}, false)}" />
+        <th:block th:insert="~{fragments/post :: description(${post}, false, false)}" />
       </div>
     </div>
   </header>
@@ -37,7 +37,7 @@
 
     <div class="gap-2 flex-vertical">
       <th:block th:each="reply : ${replies}">
-        <th:block th:insert="~{fragments/post :: postCard(${reply}, false, true)}" />
+        <th:block th:insert="~{fragments/post :: postCard(${reply}, false, true, false)}" />
       </th:block>
     </div>
   </main>

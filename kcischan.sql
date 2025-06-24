@@ -34,21 +34,22 @@ CREATE TABLE `boards` (
 );
 LOCK TABLES `boards` WRITE;
 INSERT INTO `boards` VALUES
-(-2,'Uncensored','CONGRADUATION!!! YOU\'VE REACHED THE OUTLAWLAND!!!!!!!!',NULL,1),
-(-1,'Hacking','Congraduation!!! You\'ve reached the ultimate board!',NULL),
-(0,'Test','Testiuguo gfilyvsf vbiyfl gdv yi',NULL,1),
-(1,'Random','Ripped off /b/. Almost everything is permitted',NULL,1),
-(2,'Homework','Seek help for homework & ask for notes',NULL,0),
-(3,'Games','Share things about games!',NULL,0),
-(4,'Deals','Trade things!',NULL,0),
-(5,'Romatic','Place to discuss & confess love',NULL,0),
-(6,'Gossip','Share insane gossip you have heard!',NULL,0),
-(7,'Anime & Manga','Anime & Manga topic',NULL,0),
-(8,'Complains','Complain the school, your teacher, or events!',NULL,0),
-(9,'Technology','Discuss & seek help for technologies',NULL,0),
-(10,'Piracy','Share pirated software, media, or torrent',NULL,0),
-(11,'Support','Ask for support from admins (could be suggestions or reports)',NULL,0);
+(-2,'不受审查','你已进入无法之地！！！！！！',NULL,1),
+(-1,'黑客','你已进入终极版块！',NULL,1),
+(0,'测试','Testiuguo gfilyvsf vbiyfl gdv yi',NULL,1),
+(1,'随机','抄袭 /b/。几乎什么都允许',NULL,1),
+(2,'作业','求助作业 & 要笔记',NULL,0),
+(3,'游戏','讨论游戏',NULL,0),
+(4,'交易','用来交换物品',NULL,0),
+(5,'恋爱','用来讨论 & 表白',NULL,0),
+(6,'八卦','分享你听到的超级劲爆八卦',NULL,0),
+(7,'动漫','关于动漫 & 漫画的讨论区',NULL,0),
+(8,'吐槽','吐槽学校、老师、或活动',NULL,0),
+(9,'科技','讨论科技问题或求助',NULL,0),
+(10,'盗版','分享盗版软件、媒体或种子',NULL,0),
+(11,'支持','联系管理员求帮助或提建议',NULL,0);
 UNLOCK TABLES;
+
 DROP TABLE IF EXISTS `blogs`;
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -17,7 +17,7 @@ public class AboutController {
   public String about(Model model) {
     Blog about = blogRepository.findById("1").orElse(new Blog());
 
-    model.addAttribute("title", "About");
+    model.addAttribute("title", "帮助");
     model.addAttribute("last_update", about.getUpdatedAt());
     model.addAttribute("content", about.getContent());
     return "blog";
@@ -27,7 +27,7 @@ public class AboutController {
   public String help(Model model) {
     Blog help = blogRepository.findById("2").orElse(new Blog());
 
-    model.addAttribute("title", "Help");
+    model.addAttribute("title", "帮助");
     model.addAttribute("last_update", help.getUpdatedAt());
     model.addAttribute("content", help.getContent());
     return "blog";
@@ -37,7 +37,7 @@ public class AboutController {
   public String rules(Model model) {
     Blog rules = blogRepository.findById("3").orElse(new Blog());
 
-    model.addAttribute("title", "Rules");
+    model.addAttribute("title", "规则");
     model.addAttribute("last_update", rules.getUpdatedAt());
     model.addAttribute("content", rules.getContent());
     return "blog";

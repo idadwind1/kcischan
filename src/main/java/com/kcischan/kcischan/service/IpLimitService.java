@@ -33,7 +33,7 @@ public class IpLimitService {
   }
 
   public boolean isLimited(String ip) {
-    return warningCounts.getOrDefault(ip, 0) >= MAX_WARNINGS;
+    return warningCounts.getOrDefault(ip, 0) - 1 >= MAX_WARNINGS;
   }
 
   public void clearIp(String ip) {

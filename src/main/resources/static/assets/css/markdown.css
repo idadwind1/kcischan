@@ -60,3 +60,7 @@
 .markdown-content ol ol ul {
   list-style-type: square;
 }
+
+.markdown-content hr {
+  margin: 0.5rem 0;
+}

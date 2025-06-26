@@ -11,9 +11,11 @@ import org.springframework.http.*;
 
 import com.kcischan.kcischan.model.Post;
 import com.kcischan.kcischan.repository.PostRepository;
+import com.kcischan.kcischan.service.IpLimitService;
 import com.kcischan.kcischan.service.SessionService;
 import com.kcischan.kcischan.service.TripcodeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
@@ -32,6 +34,8 @@ public class PostApi {
   private PostRepository postRepo;
   @Autowired
   private TripcodeService tripcodeService;
+  @Autowired
+  private IpLimitService ipLimitService;
 
   @RequestMapping(value = "/api/post", method = RequestMethod.POST)
   public ResponseEntity<Map<String, Object>> post(
@@ -42,7 +46,19 @@ public class PostApi {
       @RequestParam(value = "attachment", required = false) MultipartFile file,
       @RequestParam(value = "parent_id", required = false) String parentId,
       @RequestParam(value = "author", required = false) String author,
+      HttpServletRequest request,
       HttpSession session) throws IOException {
+
+    String ip = request.getHeader("X-Forwarded-For");
+    if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+      ip = request.getRemoteAddr();
+    }
+    if (ip == null) {
+      ip = "";
+    }
+    if (ipLimitService.isLimited(ip)) {
+      throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "You are posting too fast, please wait a while.");
+    }
 
     sessionService.assertCaptcha(session, captcha);
 
@@ -101,6 +117,8 @@ public class PostApi {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Parent post does not belong to the same board");
       }
     }
+
+    ipLimitService.handlePost(ip);
 
     newPost.setBoard(board);
     newPost.setContent(content);

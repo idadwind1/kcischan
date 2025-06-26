@@ -57,7 +57,7 @@ public class PostApi {
       ip = "";
     }
     if (ipLimitService.isLimited(ip)) {
-      throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "You are posting too fast, please wait a while.");
+      throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "发帖太频繁，请稍后再试");
     }
 
     sessionService.assertCaptcha(session, captcha);

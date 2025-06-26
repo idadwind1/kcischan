@@ -14,10 +14,18 @@
 
 <!-- Content -->
 <div th:fragment="content(post)">
-  <div th:if="${post.attachmentExtension != null}">
-  </div>
+  <th:block th:if="${post.attachmentExtension != null}">
+    <a th:href="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" target="_blank">
+      <img th:if="${#lists.contains({'jpg','jpeg','png','webp','gif','bmp','svg'}, post.attachmentExtension)}"
+        th:src="@{'/uploads/' + ${post.id} + '.' + ${post.attachmentExtension}}" alt="attachment" />
+      <th:block th:unless="${#lists.contains({'jpg','jpeg','png','webp','gif','bmp','svg'}, post.attachmentExtension)}">
+        Download attachment
+      </th:block>
+    </a>
+  </th:block>
 
-  <div class="markdown-content" th:text="${post.content}">Post Content</div>
+  <div class=" markdown-content" th:text="${post.content}">Post Content
+  </div>
 </div>
 
 <!-- post card -->

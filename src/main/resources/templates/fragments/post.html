@@ -2,6 +2,7 @@
 <div th:fragment="description(post, isPinned, showBoard)">
   <p th:unless="${post.author}" class="text-normal">来自 匿名</p>
   <p th:if="${post.author}" th:text="@{'来自 ' + ${post.author}}" class="text-normal">来自</p>
+  <p th:if="${showBoard}" th:text="@{'板块: ' + ${post.board}}" class="text-normal"></p>
   <p th:if="${post.fromAdmin}" style="color: red;">来自管理员</p>
   <p th:if="${post.deleted}" style="color: red;">已删除</p>
   <p>

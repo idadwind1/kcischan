@@ -86,7 +86,7 @@ public class BoardController {
     if (sessionService.isUserLoggedIn(session)) {
       posts = postRepo.findAll();
     } else {
-      posts = postRepo.findAllVisible();
+      posts = postRepo.findAllVisibleInAllVisibleBoards();
     }
 
     model.addAttribute("posts", posts);

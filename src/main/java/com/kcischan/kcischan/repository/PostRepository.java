@@ -25,6 +25,6 @@ public interface PostRepository extends JpaRepository<Post, String> {
   @Query(value = "SELECT * FROM posts", nativeQuery = true)
   List<Post> findAll();
 
-  @Query(value = "SELECT * FROM posts WHERE deleted = 0", nativeQuery = true)
-  List<Post> findAllVisible();
+  @Query(value = "SELECT p.* FROM posts p JOIN boards b ON p.board = b.id WHERE p.deleted = 0 AND b.hidden = 0;", nativeQuery = true)
+  List<Post> findAllVisibleInAllVisibleBoards();
 }
